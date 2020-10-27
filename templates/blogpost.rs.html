@@ -1,0 +1,11 @@
+@use crate::post::Post;
+@(post: Post, body: impl ToHtml)
+
+<html>
+    <head>
+        <title>@post.title</title>
+    </head>
+    <body>
+        @body
+    </body>
+</html>

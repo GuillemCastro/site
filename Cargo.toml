@@ -1,0 +1,17 @@
+[package]
+name = "site"
+version = "0.1.0"
+authors = ["Guillem Castro <guillemcastro4@gmail.com>"]
+edition = "2018"
+build = "src/build.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+comrak = "0.8.2"
+glob = "0.3.0"
+chrono = "0.4"
+color-eyre = "0.5"
+
+[build-dependencies]
+ructe = "0.12.0"
