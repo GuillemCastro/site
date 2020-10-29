@@ -6,6 +6,7 @@ use comrak::{markdown_to_html, ComrakOptions};
 
 #[derive(Eq, PartialEq, Debug, Clone)]
 pub struct Post {
+    pub name: String,
     pub title: String,
     pub date: DateTime<FixedOffset>,
     pub body: String,
@@ -27,14 +28,15 @@ impl PartialOrd for Post {
 pub fn load(dir: &str) -> Result<Vec<Post>> {
     let mut res: Vec<Post> = Vec::new();
     for path in glob(&format!("{}/*.md", dir))?.filter_map(Result::ok) {
+        let filename = path.file_stem().unwrap().to_str().unwrap().to_owned();
         let body = fs::read_to_string(path)?;
-        let post = parse(body)?;
+        let post = parse(filename, body)?;
         res.push(post);
     }
     Ok(res)
 }
 
-pub fn parse(body: String) -> Result<Post> {
+pub fn parse(filename: String, body: String) -> Result<Post> {
     let mut start_header = false;
     let mut end_header = false;
     let lines = body.lines();
@@ -80,6 +82,7 @@ pub fn parse(body: String) -> Result<Post> {
     }
     let html_body = markdown_to_html(&body, &ComrakOptions::default());
     Ok(Post {
+        name: filename,
         title: title,
         date: date,
         body: body,

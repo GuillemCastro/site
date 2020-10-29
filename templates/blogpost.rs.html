@@ -1,11 +1,17 @@
 @use crate::post::Post;
+@use super::{header_html, footer_html}; 
+
 @(post: Post, body: impl ToHtml)
 
-<html>
-    <head>
-        <title>@post.title</title>
-    </head>
-    <body>
-        @body
-    </body>
-</html>
+@:header_html(Some(post.title.as_str()))
+
+<div class="post-header">
+    <span class="post-date">@post.date.format("%F")</span>
+    <h1><span>@post.title</span></h1>
+</div>
+
+<div class="post-body">
+    @body
+</div>
+
+@:footer_html()
