@@ -58,7 +58,10 @@ pub fn parse(filename: String, body: String) -> Result<Post> {
                     let split: Vec<&str> = line.split(":").collect();
                     match split[0] {
                         "title" => {
-                            title = split[1].trim().to_owned();
+                            title = split.into_iter()
+                                .skip(1)
+                                .flat_map(|f | f.chars())
+                                .collect();
                         }
                         "date" => {
                             let parsed_date = NaiveDate::parse_from_str(split[1].trim(), "%Y-%m-%d")?;
